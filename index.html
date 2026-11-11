@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doerl 2025 — Analyses</title>
+<meta name="description" content="Companion analyses for Doerl et al. 2025, Maturation of the glymphatic system confers innate resistance of the brain to Zika virus infection.">
+<style>
+:root{
+  --page:#f9f9f7; --surface:#fcfcfb; --surface-2:#f4f3f0; --line:#e3e1dc; --line-2:#cfccc5;
+  --ink:#1a1a19; --ink-2:#4a4844; --ink-3:#77746d; --accent:#2a78d6; --warm:#eb6834;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 8px 24px rgba(0,0,0,.05);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#0d0d0d; --surface:#1a1a19; --surface-2:#222221; --line:#333331; --line-2:#44443f;
+    --ink:#f2f1ee; --ink-2:#b9b6af; --ink-3:#8a8880; --accent:#3987e5; --warm:#d95926;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --page:#0d0d0d; --surface:#1a1a19; --surface-2:#222221; --line:#333331; --line-2:#44443f;
+  --ink:#f2f1ee; --ink-2:#b9b6af; --ink-3:#8a8880; --accent:#3987e5; --warm:#d95926;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--page); color:var(--ink); font-size:16px; line-height:1.6;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:900px; margin:0 auto; padding:0 16px 88px}
+a{color:var(--accent)}
+h1{font-size:clamp(1.8rem,5vw,2.6rem); font-weight:680; line-height:1.2; letter-spacing:-.015em; margin:0}
+h2{font-size:1.25rem; font-weight:640; margin:0 0 4px; letter-spacing:-.005em}
+p{margin:0 0 14px}
+.eyebrow{font:600 .74rem/1.4 var(--mono); letter-spacing:.11em; text-transform:uppercase; color:var(--ink-3)}
+header{padding:56px 0 30px; border-bottom:1px solid var(--line)}
+.topbar{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:26px}
+button.theme{background:var(--surface); color:var(--ink-2); border:1px solid var(--line-2); border-radius:999px;
+  padding:6px 13px; font:inherit; font-size:.82rem; cursor:pointer}
+button.theme:hover{border-color:var(--ink-3); color:var(--ink)}
+.dek{font-size:1.06rem; color:var(--ink-2); max-width:66ch; margin-top:14px}
+.meta{margin-top:18px; font-size:.9rem; color:var(--ink-3)}
+.meta a{text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+section{margin-top:48px}
+.grid{display:grid; gap:16px; margin-top:20px}
+.card{display:block; background:var(--surface); border:1px solid var(--line); border-radius:14px;
+  padding:22px 24px; box-shadow:var(--shadow); text-decoration:none; color:inherit; transition:border-color .12s, transform .12s}
+a.card:hover{border-color:var(--accent); transform:translateY(-1px)}
+.card .tag{display:inline-block; font:600 .7rem/1.6 var(--mono); letter-spacing:.07em; text-transform:uppercase;
+  color:var(--warm); border:1px solid color-mix(in srgb,var(--warm) 40%,transparent);
+  background:color-mix(in srgb,var(--warm) 9%,transparent); border-radius:999px; padding:1px 9px; margin-bottom:10px}
+.card p{color:var(--ink-2); font-size:.94rem; margin:8px 0 0}
+.card .go{display:inline-block; margin-top:14px; font-size:.9rem; font-weight:600; color:var(--accent)}
+.facts{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.facts span{font:.78rem/1.6 var(--mono); color:var(--ink-3); background:var(--surface-2);
+  border:1px solid var(--line); border-radius:7px; padding:2px 9px}
+.card.soon{border-style:dashed; box-shadow:none; background:transparent}
+.card.soon h2{color:var(--ink-3)}
+.card.soon .tag{color:var(--ink-3); border-color:var(--line-2); background:var(--surface-2)}
+.note{font-size:.9rem; color:var(--ink-2); background:var(--surface-2); border:1px solid var(--line);
+  border-radius:11px; padding:15px 17px}
+code{font-family:var(--mono); font-size:.86em; background:var(--surface-2); border:1px solid var(--line);
+  border-radius:4px; padding:1px 5px}
+ul{padding-left:20px; margin:10px 0} li{margin-bottom:7px; color:var(--ink-2)}
+footer{margin-top:60px; padding-top:20px; border-top:1px solid var(--line); font-size:.85rem; color:var(--ink-3)}
+@media (min-width:680px){ .grid{grid-template-columns:1fr 1fr} .grid .wide{grid-column:1/-1} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="topbar">
+    <span class="eyebrow">MCB Lab · companion analyses</span>
+    <button class="theme" id="themeBtn" type="button">Dark</button>
+  </div>
+  <h1>Maturation of the glymphatic system confers innate resistance of the brain to Zika virus infection</h1>
+  <p class="dek">Doerl, Chaves, dos Santos, Marcelino, Coelho, Miyakoshi, Araujo, Jeronimo &amp; Sequerra.
+  A maturing glymphatic system acts as an innate barrier to ZIKV: injected before maturation the virus spreads widely,
+  deforms vessels and disrupts the Aqp4<sup>+</sup> astrocyte network; after maturation the same challenge causes no
+  disease. Blocking vasopressin receptor 1a reopens the window of susceptibility.</p>
+  <p class="meta">Preprint &middot;
+    <a href="https://www.biorxiv.org/content/10.1101/2025.10.26.684625v1">bioRxiv 2025.10.26.684625</a> &middot;
+    <a href="https://doi.org/10.1101/2025.10.26.684625">doi:10.1101/2025.10.26.684625</a> &middot;
+    <a href="https://prelights.biologists.com/highlights/maturation-of-the-glymphatic-system-confers-innate-resistance-of-the-brain-to-zika-virus-infection/">preLights highlight</a>
+  </p>
+</header>
+
+<section>
+  <span class="eyebrow">Analyses</span>
+  <h2 style="font-size:1.45rem; margin-top:4px">Supporting datasets</h2>
+  <p style="color:var(--ink-2); max-width:66ch">Each analysis is self-contained: a rendered report you can open in the
+  browser, with the scripts that produced it alongside.</p>
+
+  <div class="grid">
+    <a class="card wide" href="macaque/">
+      <span class="tag">Macaque · single-cell</span>
+      <h2>The astrocyte endfoot after infant Zika infection</h2>
+      <p>A re-analysis of GEO <b>GSE342497</b> (Edara et al., <i>JCI Insight</i> 2026): infant rhesus macaques infected
+      at 4 weeks of age, past the equivalent of the mouse glymphatic maturation window. Tests AQP4 and the whole
+      dystrophin&ndash;glycoprotein anchoring complex, its basement-membrane ligands, <code>AVPR1A</code> and the
+      interferon response, per region and cell type. Finds the anchoring module coordinately lower in ZIKV astrocytes
+      and pericytes while AQP4 itself is unchanged.</p>
+      <div class="facts"><span>176,570 cells</span><span>3 vs 2 animals</span><span>3 brain regions</span><span>pseudobulk edgeR</span></div>
+      <span class="go">Open the report &rarr;</span>
+    </a>
+
+    <div class="card soon">
+      <span class="tag">Next</span>
+      <h2>Further analyses</h2>
+      <p>Additional datasets will be added as sibling folders, each with its own report linked from this page.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <span class="eyebrow">Repository</span>
+  <h2>What is here, and what is not</h2>
+  <ul>
+    <li><code>macaque/</code> &mdash; report, analysis scripts and figures for the GSE342497 re-analysis.</li>
+    <li>Only code, figures and rendered reports are versioned. <b>No sequencing data, count matrices or
+      <code>.rds</code> objects</b> &mdash; rebuild them by running the scripts against the public accession.</li>
+  </ul>
+  <div class="note">Source: <a href="https://github.com/MCBLab/Doerl_2025">github.com/MCBLab/Doerl_2025</a>.
+  Each analysis folder has a <code>README.md</code> with methods, caveats and how to run it.</div>
+</section>
+
+<footer>Preprint not peer reviewed. Analyses are exploratory and hypothesis-generating.</footer>
+
+</div>
+<script>
+(function(){
+  const b = document.getElementById("themeBtn");
+  const dark = () => { const c = document.documentElement.getAttribute("data-theme");
+    return c === "dark" || (c === "auto" && matchMedia("(prefers-color-scheme: dark)").matches); };
+  const label = () => { b.textContent = dark() ? "Light" : "Dark"; };
+  b.onclick = () => { document.documentElement.setAttribute("data-theme", dark() ? "light" : "dark"); label(); };
+  label();
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", label);
+})();
+</script>
+</body>
+</html>
