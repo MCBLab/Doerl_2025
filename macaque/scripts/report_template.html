@@ -338,22 +338,98 @@ code{font-family:var(--mono); font-size:.86em; background:var(--surface-2); bord
   <details><summary>Show as table</summary><div class="scroll" id="t5"></div></details>
 </section>
 
+<section id="mast">
+  <span class="eyebrow">Figures 6&ndash;7</span>
+  <h2>The same question one cell at a time</h2>
+  <p>Everything above summed each animal's cells into one value per group. A cell-level model asks a different
+  question: does the <i>fraction of astrocytes expressing</i> the anchor change? MAST fits a hurdle model that
+  separates detection from level, with the cellular detection rate as a covariate.</p>
+  <p><b>The catch, and it is a big one.</b> Cells from the same animal are not independent. Fitting MAST the
+  conventional way &mdash; treating all 176,570 cells as replicates &mdash; produces P-values that are not interpretable
+  here: <code>DAG1</code> in astrocytes comes out at P&nbsp;=&nbsp;3&times;10<sup>&minus;295</sup>. Refitting the same
+  model with the animal as a random effect moves it to P&nbsp;=&nbsp;1.8&times;10<sup>&minus;4</sup>. Across the
+  endfoot genes, the median shift is <b>2.3 orders of magnitude</b>, the largest is <b>291</b>, and <b>18 of 58</b>
+  cell-level "significant" results stop being significant altogether. Only the random-effect column below is evidence.</p>
+  <div class="card scroll">
+    <table>
+      <thead><tr><th>Gene</th><th>All astrocytes<br><span style="font-weight:400;text-transform:none">log2FC, P (animal RE)</span></th>
+        <th>Detected, ctrl&nbsp;&rarr;&nbsp;ZIKV</th><th>GFAP-high astrocytes</th><th>Detected, ctrl&nbsp;&rarr;&nbsp;ZIKV</th></tr></thead>
+      <tbody>
+        <tr><td><code>DAG1</code></td><td>&minus;0.39, P 1.8&times;10<sup>&minus;4</sup> <b>**</b></td><td>81% &rarr; 63%</td><td>&minus;0.44, P 3.0&times;10<sup>&minus;7</sup> <b>**</b></td><td>80% &rarr; 59%</td></tr>
+        <tr><td><code>DTNA</code></td><td>&minus;0.21, P 6.0&times;10<sup>&minus;4</sup> <b>**</b></td><td>82% &rarr; 71%</td><td>&minus;0.09, P 1.8&times;10<sup>&minus;3</sup> <b>**</b></td><td>78% &rarr; 69%</td></tr>
+        <tr><td><code>UTRN</code></td><td>&minus;0.12, P 3.5&times;10<sup>&minus;3</sup> <b>**</b></td><td>18% &rarr; 8%</td><td>&minus;0.08, P 0.059</td><td>16% &rarr; 7%</td></tr>
+        <tr><td><code>LARGE1</code></td><td>&minus;0.04, P 0.014 <b>*</b></td><td>9% &rarr; 4%</td><td>&minus;0.05, P 1.6&times;10<sup>&minus;4</sup> <b>**</b></td><td>8% &rarr; 4%</td></tr>
+        <tr><td><code>SNTA1</code></td><td><b>+</b>0.20, P 3.3&times;10<sup>&minus;3</sup> <b>**</b></td><td>75% &rarr; 68%</td><td><b>+</b>0.21, P 1.0&times;10<sup>&minus;3</sup> <b>**</b></td><td>78% &rarr; 76%</td></tr>
+        <tr><td><code>DMD</code></td><td>+0.03, P 0.66</td><td>40% &rarr; 39%</td><td>+0.10, P 0.175</td><td>35% &rarr; 36%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="figcap" style="margin-top:14px"><b>** FDR &lt; 0.05, * P &lt; 0.05</b>, both from the animal-random-effect
+  fit. MAST pools the three regions with region as a covariate, so these do not line up one-to-one with the per-region
+  pseudobulk above. <b>Two honest qualifications:</b> a random intercept estimated from five animals is weakly
+  identified, so even this column is probably optimistic; and <code>SNTA1</code> moves <i>up</i> here while it is flat
+  in pseudobulk, which is a reminder that the two methods weight detection rate and expression level differently
+  rather than a finding in itself.</p>
+  <figure class="fig">
+    <div class="png"><img src="__IMG_08__" alt="Violin plots of DAG1, DMD, UTRN, LARGE1, SNTA1 and DTNA in astrocytes, ZIKV versus control"></div>
+    <figcaption class="figcap"><b>Figure 6.</b> Endfoot anchor genes in all astrocytes. Violins are the full per-cell
+    distribution including the zeros; the percentage under each is the share of cells with any detection; the points
+    are per-animal means, which are the unit of replication.</figcaption>
+  </figure>
+  <figure class="fig">
+    <div class="png"><img src="__IMG_09__" alt="The same six violin plots restricted to GFAP-high astrocytes"></div>
+    <figcaption class="figcap"><b>Figure 7.</b> The same genes in GFAP-high astrocytes, the subtype where the
+    pseudobulk effect is strongest. <code>DAG1</code> separates the two groups with no overlap between the control and
+    ZIKV per-animal means.</figcaption>
+  </figure>
+</section>
+
+<section id="architecture">
+  <span class="eyebrow">Prior work</span>
+  <h2>Is this actually one complex?</h2>
+  <p>The argument of this report rests on these six genes being parts of one structure rather than six genes that
+  happen to move together. They are. Each link below is established by loss-of-function work in brain or glia.</p>
+  <div class="card scroll">
+    <table>
+      <thead><tr><th style="width:14%">Gene</th><th style="width:26%">Role in the anchor</th><th>Key evidence</th></tr></thead>
+      <tbody>
+        <tr><td><code>DAG1</code></td><td>&alpha;/&beta;-dystroglycan &mdash; binds laminin and agrin outside, dystrophin inside</td>
+          <td>Laminin clusters Kir4.1 and AQP4 through a dystroglycan complex in astrocytes (Guadagno &amp; Moukhles 2004); dystroglycan deletion alters endfoot membrane architecture (Noell 2011); glia-specific deletion separates the glial role (Satz 2010)</td></tr>
+        <tr><td><code>DMD</code></td><td>Dystrophin, glial isoform Dp71 &mdash; the inner scaffold</td>
+          <td>Dystrophin loss reduces endfoot AQP4 (Frigeri 2001) and delays brain oedema (Vajda 2002); only the perivascular pool is dystrophin-dependent (Nicchia 2008); <b>Dp71 loss depolarises AQP4 and impairs glymphatic function</b> (Yang 2024)</td></tr>
+        <tr><td><code>UTRN</code></td><td>Utrophin &mdash; dystrophin's paralogue, forms a distinct variant of the complex</td>
+          <td>Utrophin and Dp71 assemble different complexes at brain microvasculature (Haenggi 2004); glia run their own composition (Blake 1999)</td></tr>
+        <tr><td><code>LARGE1</code></td><td>Builds <i>matriglycan</i>, the sugar that lets dystroglycan bind the basement membrane</td>
+          <td>Without the glycan, dystroglycan cannot bind laminin or agrin (Michele 2002); LARGE is the enzyme that makes it (Inamori 2012); LARGE loss disturbs astrocyte&ndash;vessel interaction (Zhou 2017)</td></tr>
+        <tr><td><code>SNTA1</code></td><td>&alpha;-syntrophin &mdash; its PDZ domain binds the AQP4 C-terminus directly</td>
+          <td>Required for AQP4 to reach the endfoot (Neely 2001); defines the perivascular AQP4 pool (Amiry-Moghaddam 2003a) and K<sup>+</sup> clearance (2003b); the whole scaffold assembles as one unit (Bragg 2006)</td></tr>
+        <tr><td><code>DTNA</code></td><td>&alpha;-dystrobrevin &mdash; binds syntrophin and dystrophin, stabilises the assembly</td>
+          <td>Glial &alpha;-dystrobrevin loss causes AQP4 redistribution, barrier failure and progressive oedema (Lien 2012); part of the same perivascular scaffold (Bragg 2006)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="figcap" style="margin-top:14px">Full citations with PMIDs and DOIs are in
+  <code>endfoot_anchor_references.md</code>. The point this makes for the comparison: every one of these
+  loss-of-function phenotypes is <b>AQP4 present but mislocalised</b>, not AQP4 absent &mdash; which is exactly the
+  pattern here, where <code>AQP4</code> transcript is flat while its anchor falls.</p>
+</section>
+
 <section id="pngs">
-  <span class="eyebrow">Supporting figures</span>
+  <span class="eyebrow">Figures 8&ndash;10</span>
   <h2>From the primary analysis</h2>
   <figure class="fig">
     <div class="png"><img src="__IMG_01__" alt="UMAP of 176,570 cells coloured by cell type, split by region and condition"></div>
-    <figcaption class="figcap"><b>Figure 6.</b> Annotation overview. Harmony-integrated UMAP, coloured by cell type and
+    <figcaption class="figcap"><b>Figure 8.</b> Annotation overview. Harmony-integrated UMAP, coloured by cell type and
     split by region and condition.</figcaption>
   </figure>
   <figure class="fig">
     <div class="png"><img src="__IMG_05__" alt="Heatmap of log2 fold change for AQP4, DMD and DAG1 by region and cell type"></div>
-    <figcaption class="figcap"><b>Figure 7.</b> The original three-gene question: AQP4, DMD and DAG1 across every
+    <figcaption class="figcap"><b>Figure 9.</b> The original three-gene question: AQP4, DMD and DAG1 across every
     testable region &times; cell type.</figcaption>
   </figure>
   <figure class="fig">
     <div class="png"><img src="__IMG_07__" alt="Scatter plot of AQP4 log2 fold change against astrocyte-marker log2 fold change in non-astrocyte cell types"></div>
-    <figcaption class="figcap"><b>Figure 8.</b> Ambient-RNA diagnostic. In cell types that do not express AQP4, its
+    <figcaption class="figcap"><b>Figure 10.</b> Ambient-RNA diagnostic. In cell types that do not express AQP4, its
     apparent change tracks the change in astrocyte-specific markers (r = 0.87) &mdash; the signature of spill-over, not
     biology.</figcaption>
   </figure>
@@ -437,10 +513,31 @@ code{font-family:var(--mono); font-size:.86em; background:var(--surface-2); bord
     <li>Amiry-Moghaddam M, et al. <b>An &alpha;-syntrophin-dependent pool of AQP4 in astroglial end-feet confers
       bidirectional water flow between blood and brain.</b> PNAS 100:2106&ndash;2111 (2003).
       <a href="https://doi.org/10.1073/pnas.0437946100">doi:10.1073/pnas.0437946100</a></li>
-    <li>Noell S, et al. <b>Dynamics of expression patterns of AQP4, dystroglycan, agrin and matrix
-      metalloproteinases.</b> Eur J Neurosci 33:2179&ndash;2186 (2011).
+    <li>Noell S, et al. <b>Evidence for a role of dystroglycan regulating the membrane architecture of
+      astroglial endfeet.</b> Eur J Neurosci 33:2179&ndash;2186 (2011).
       <a href="https://doi.org/10.1111/j.1460-9568.2011.07688.x">doi:10.1111/j.1460-9568.2011.07688.x</a></li>
+    <li>Yang J, et al. <b>Dystrophin 71 deficiency causes impaired aquaporin-4 polarization contributing to
+      glymphatic dysfunction and brain edema in cerebral ischemia.</b> Neurobiol Dis 199:106586 (2024).
+      <a href="https://doi.org/10.1016/j.nbd.2024.106586">doi:10.1016/j.nbd.2024.106586</a></li>
+    <li>Neely JD, et al. <b>Syntrophin-dependent expression and localization of Aquaporin-4 water channel
+      protein.</b> PNAS 98:14108&ndash;14113 (2001).
+      <a href="https://doi.org/10.1073/pnas.241508198">doi:10.1073/pnas.241508198</a></li>
+    <li>Lien CF, et al. <b>Absence of glial &alpha;-dystrobrevin causes abnormalities of the blood-brain barrier
+      and progressive brain edema.</b> J Biol Chem 287:41374&ndash;41385 (2012).
+      <a href="https://doi.org/10.1074/jbc.M112.400044">doi:10.1074/jbc.M112.400044</a></li>
+    <li>Guadagno E, Moukhles H. <b>Laminin-induced aggregation of the inwardly rectifying potassium channel,
+      Kir4.1, and the water-permeable channel, AQP4, via a dystroglycan-containing complex in astrocytes.</b>
+      Glia 47:138&ndash;149 (2004). <a href="https://doi.org/10.1002/glia.20039">doi:10.1002/glia.20039</a></li>
+    <li>Finak G, et al. <b>MAST: a flexible statistical framework for assessing transcriptional changes and
+      characterizing heterogeneity in single-cell RNA sequencing data.</b> Genome Biol 16:278 (2015).
+      <a href="https://doi.org/10.1186/s13059-015-0844-5">doi:10.1186/s13059-015-0844-5</a></li>
+    <li>Squair JW, et al. <b>Confronting false discoveries in single-cell differential expression.</b>
+      Nat Commun 12:5692 (2021).
+      <a href="https://doi.org/10.1038/s41467-021-25960-2">doi:10.1038/s41467-021-25960-2</a>
+      &mdash; why the cell-level P-values above are reported only as effect sizes.</li>
   </ol>
+  <p class="figcap">The full gene-by-gene evidence for the anchor architecture, with PMIDs, is in
+  <code>endfoot_anchor_references.md</code> alongside this report.</p>
 </section>
 
 <p class="foot">Self-contained HTML &mdash; all data and images are embedded, nothing is fetched at load time.

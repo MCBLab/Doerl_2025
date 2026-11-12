@@ -79,6 +79,47 @@ where it does not change.
 (amygdala +1.21, FDR 0.041). Dp71 — the isoform that actually anchors AQP4 — cannot be separated from
 total `DMD` with 3′ chemistry.
 
+### Cell-level view: MAST
+
+The pseudobulk above sums each animal's cells into one value. A cell-level hurdle model (MAST) asks instead whether
+the *fraction of astrocytes expressing* the anchor changes. Fitted with the animal as a random effect:
+
+| Gene | All astrocytes (log₂FC, P) | Detected ctrl → ZIKV | GFAP-high astrocytes | Detected ctrl → ZIKV |
+|---|---|---|---|---|
+| `DAG1` | −0.39, P 1.8e-4 ** | 81% → 63% | −0.44, P 3.0e-7 ** | 80% → 59% |
+| `DTNA` | −0.21, P 6.0e-4 ** | 82% → 71% | −0.09, P 1.8e-3 ** | 78% → 69% |
+| `UTRN` | −0.12, P 3.5e-3 ** | 18% → 8% | −0.08, P 0.059 | 16% → 7% |
+| `LARGE1` | −0.04, P 0.014 * | 9% → 4% | −0.05, P 1.6e-4 ** | 8% → 4% |
+| `SNTA1` | **+**0.20, P 3.3e-3 ** | 75% → 68% | **+**0.21, P 1.0e-3 ** | 78% → 76% |
+| `DMD` | +0.03, P 0.66 | 40% → 39% | +0.10, P 0.175 | 35% → 36% |
+
+`**` FDR < 0.05, `*` P < 0.05. MAST pools the three regions with region as a covariate, so these do not map
+one-to-one onto the per-region pseudobulk.
+
+> **Pseudoreplication is severe in this dataset, and the numbers show it.** Fitting the same MAST model the
+> conventional way — all 176,570 cells as independent replicates — gives `DAG1` in astrocytes **P = 3×10⁻²⁹⁵**.
+> Adding `(1|animal)` moves it to **P = 1.8×10⁻⁴**: 291 orders of magnitude. Across the six genes the median shift is
+> 2.3 orders and **18 of 58** cell-level "significant" results stop being significant. The fixed-effects table is
+> shipped (`mast_panel_..._FIXED_pseudoreplicated.csv`) for effect sizes and detection rates only — **do not cite its
+> P-values**. Even the random-effect fit rests on a variance estimated from five animals, so treat it as optimistic.
+> `SNTA1` rising here while flat in pseudobulk reflects the two methods weighting detection rate versus level
+> differently; it is not a separate finding. See [Squair et al. 2021](https://doi.org/10.1038/s41467-021-25960-2).
+
+![Endfoot anchor in astrocytes](figures/08_violin_endfoot_astrocytes.png)
+
+### Is this really one complex?
+
+Yes — and that matters, because the argument rests on these six genes being one structure rather than six genes that
+drift together. α-dystroglycan (`DAG1`) binds laminin and agrin in the basement membrane through *matriglycan*, the
+sugar built by `LARGE1`; β-dystroglycan passes the link inward to dystrophin (`DMD`, glial isoform Dp71) or utrophin
+(`UTRN`), which scaffold α-syntrophin (`SNTA1`) and α-dystrobrevin (`DTNA`); α-syntrophin's PDZ domain binds the AQP4
+C-terminus directly. Every loss-of-function phenotype in that chain is **AQP4 present but depolarised**, not AQP4
+absent — which is the pattern here. [Yang et al. 2024](https://doi.org/10.1016/j.nbd.2024.106586) closes the loop by
+showing Dp71 loss impairs **glymphatic** function specifically.
+
+**→ [`endfoot_anchor_references.md`](endfoot_anchor_references.md)** — the gene-by-gene primary literature, every
+entry verified against PubMed (PMID, journal, volume, pages, DOI).
+
 ### The honest reading
 
 This dataset cannot see AQP4 *coverage* of vessels, which is what the mouse study measures; and the
@@ -110,9 +151,10 @@ that would connect them.**
 
 ```
 macaque/
-├── index.html          the report — self-contained, open it directly
-├── figures/            PNGs from the primary analysis (01–07, annotation dot plot)
-└── scripts/            the pipeline, run in numeric order
+├── index.html                      the report — self-contained, open it directly
+├── endfoot_anchor_references.md    primary literature for the anchor architecture
+├── figures/                        PNGs (01–07 primary, 08–09 endfoot violins, annotation dot plot)
+└── scripts/                        the pipeline, run in numeric order
 ```
 
 | Script | Does |
@@ -125,6 +167,8 @@ macaque/
 | `04_build_full_object.R` | assembles the annotated Seurat object (not versioned here) |
 | `05_glymphatic_context.R` | the extended panel and `report_data.json` |
 | `06_build_report.R` | renders `index.html` from `report_template.html` |
+| `07_mast_celltype.R` | cell-level MAST per cell type, with and without the animal random effect |
+| `08_violin_endfoot.R` | the endfoot-anchor violin figures (08, 09) |
 | `contamination.R` | the shared ambient-RNA / doublet correction |
 
 ## Running it
@@ -136,11 +180,11 @@ proj <- "/home/diego-coelho/Documents/mcblab/Edara2026"
 ```
 
 Change it, then from GEO GSE342497 download the raw 10x matrices into `data/` and run the scripts in
-numeric order. Needs R with Seurat v5, edgeR, harmony, scDblFinder, DropletUtils, dplyr, jsonlite and
-magick. Step `04` needs about 13 GB of RAM; steps `05` and `06` are light.
+numeric order. Needs R with Seurat v5, edgeR, harmony, scDblFinder, DropletUtils, MAST, lme4, dplyr, ggplot2,
+jsonlite and magick. Step `04` needs about 13 GB of RAM; steps `05` and `06` are light.
 
 **Not in this repository:** the 2.5 GB annotated Seurat object, the raw and intermediate matrices, and
-the CSV result tables. The figures and the report are the versioned outputs.
+the CSV result tables (including the MAST tables — ask if you want them added; they are small). The figures and the report are the versioned outputs.
 
 ## References
 
@@ -157,6 +201,17 @@ the CSV result tables. The figures and the report are the versioned outputs.
 5. Amiry-Moghaddam M, et al. *An α-syntrophin-dependent pool of AQP4 in astroglial end-feet confers
    bidirectional water flow between blood and brain.* PNAS 100:2106–2111 (2003).
    [doi:10.1073/pnas.0437946100](https://doi.org/10.1073/pnas.0437946100)
-6. Noell S, et al. *Dynamics of expression patterns of AQP4, dystroglycan, agrin and matrix
-   metalloproteinases.* Eur J Neurosci 33:2179–2186 (2011).
+6. Noell S, et al. *Evidence for a role of dystroglycan regulating the membrane architecture of
+   astroglial endfeet.* Eur J Neurosci 33:2179–2186 (2011).
    [doi:10.1111/j.1460-9568.2011.07688.x](https://doi.org/10.1111/j.1460-9568.2011.07688.x)
+7. Yang J, et al. *Dystrophin 71 deficiency causes impaired aquaporin-4 polarization contributing to
+   glymphatic dysfunction and brain edema in cerebral ischemia.* Neurobiol Dis 199:106586 (2024).
+   [doi:10.1016/j.nbd.2024.106586](https://doi.org/10.1016/j.nbd.2024.106586)
+8. Finak G, et al. *MAST: a flexible statistical framework for assessing transcriptional changes and
+   characterizing heterogeneity in single-cell RNA sequencing data.* Genome Biol 16:278 (2015).
+   [doi:10.1186/s13059-015-0844-5](https://doi.org/10.1186/s13059-015-0844-5)
+9. Squair JW, et al. *Confronting false discoveries in single-cell differential expression.*
+   Nat Commun 12:5692 (2021). [doi:10.1038/s41467-021-25960-2](https://doi.org/10.1038/s41467-021-25960-2)
+
+Gene-by-gene evidence for the endfoot architecture is in
+[`endfoot_anchor_references.md`](endfoot_anchor_references.md).

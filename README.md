@@ -26,8 +26,10 @@ susceptibility.
 Headline from `macaque/`: AQP4 transcript is unchanged and there is no leukocyte influx — consistent
 with a protected, mature brain — but the machinery that holds AQP4 at the vessel (`DAG1`, `KCNJ10`,
 `MLC1`, `UTRN`, `LARGE1`, and the basement-membrane ligands `NID1`, `LAMB2`, `LAMC1`, `HSPG2`,
-`AGRN`) is coordinately lower in astrocytes and pericytes of amygdala and hippocampus. See
-[`macaque/README.md`](macaque/README.md) for the numbers and the caveats.
+`AGRN`) is coordinately lower in astrocytes and pericytes of amygdala and hippocampus. A cell-level MAST model with
+the animal as a random effect agrees: `DAG1` is detected in 81% of control astrocytes and 63% of infected ones
+(80% → 59% in GFAP-high astrocytes). See [`macaque/README.md`](macaque/README.md) for the numbers, the caveats, and
+why the conventional cell-level P-values are off by up to 291 orders of magnitude here.
 
 ## Repository layout
 

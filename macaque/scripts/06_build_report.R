@@ -49,6 +49,8 @@ html <- sub("/*__DATA__*/ null", json, html, fixed = TRUE)
 html <- sub("__IMG_01__", img("01_UMAP_celltype_region_condition.png"), html, fixed = TRUE)
 html <- sub("__IMG_05__", img("05_heatmap_log2FC_ZIKV_vs_Control.png", 1500), html, fixed = TRUE)
 html <- sub("__IMG_07__", img("07_ambient_RNA_diagnostic.png", 1400), html, fixed = TRUE)
+html <- sub("__IMG_08__", img("08_violin_endfoot_astrocytes.png", 1600), html, fixed = TRUE)
+html <- sub("__IMG_09__", img("09_violin_endfoot_astrocytes_GFAPhi.png", 1600), html, fixed = TRUE)
 stopifnot(!grepl("__IMG_|__DATA__", html))
 
 dest <- file.path(proj, "results/ZIKV_macaque_glymphatic_report.html")
